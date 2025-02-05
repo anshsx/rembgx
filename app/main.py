@@ -1,11 +1,21 @@
 from fastapi import FastAPI, UploadFile, File
-from app.remove_bg import remove_background
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from app.remove_bg import remove_background
 import shutil
 import os
 import uuid
 
 app = FastAPI()
+
+# Enable CORS (Allow all origins for testing; restrict in production)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://xapwerx.vercel.app"],  # Replace "*" with your frontend URL in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 UPLOAD_DIR = "uploads"
 RESULTS_DIR = "results"
